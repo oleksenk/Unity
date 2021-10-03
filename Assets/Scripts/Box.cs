@@ -11,7 +11,8 @@ public class Box : MonoBehaviour
         PlayerMover player = other.GetComponent<PlayerMover>();
         if (player != null)
         {
-            player.AddCoints(_CointsPoints);
+            Debug.Log("CoinsAdded");
+            player.CoinsAmount += _CointsPoints;
             Destroy(gameObject);
         }
     }

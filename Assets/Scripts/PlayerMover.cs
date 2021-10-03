@@ -1,45 +1,91 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMover : MonoBehaviour
 {
     private Rigidbody2D _rigidbody;
     
-
     [SerializeField] private float _speed;
 
     [SerializeField] private SpriteRenderer _spriteRenderer;
 
     [SerializeField] private float _jumpForce;
-
     [SerializeField] private Transform _groundChecker;
     [SerializeField] private Transform FirePosition;
     [SerializeField] private GameObject Fire;
     [SerializeField] private float _groundCheckerRadius;
-
     [SerializeField] private LayerMask _whatIsGround;
     [SerializeField] private LayerMask _whatIsCell;
-    
     [SerializeField] private Collider2D _headCollider;
     [SerializeField] private float _headCheckerRadius;
     [SerializeField] private Transform _headChecker;
+    [SerializeField] private int _maxHp;
+    [SerializeField] private int _maxMp;
     
     [Header(("Animation"))]
     [SerializeField] private Animator _animator;
     [SerializeField] private string _runAnimatorKey;
     [SerializeField] private string _jumpAnimatorKey;
     [SerializeField] private string _crouchAnimatorKey;
+
+    [Header("UI")] 
+    [SerializeField] private TMP_Text _coinAmountText;
+    [SerializeField] private Slider _hpBar;
+    [SerializeField] private Slider _mpBar;
     private float _horizontalDirection;
     private float _verticalDirection;
     private bool _jump;
     private bool _crawl;
-    //public bool IsRit { get; set; }
-    
-
+    private int _coinsAmount;
+    private int _currentHp;
+    private int _currentMp;
+    public int CoinsAmount
+    {
+        get => _coinsAmount;
+        set
+        {
+            _coinsAmount = value;
+            _coinAmountText.text = value.ToString();
+        }
+    }
+    private int CurrentHp
+    {
+        get => _currentHp;
+        set
+        {
+            if (value > _maxHp)
+                value = _maxHp;
+            _currentHp = value;
+            _hpBar.value = value;
+        }
+    }
+    private int CurrentMp
+    {
+        get => _currentMp;
+        set
+        {
+            if (value > _maxMp)
+                value = _maxMp;
+            _currentMp = value;
+            _mpBar.value = value;
+        }
+    }
     public bool CanClimb { get;  set; }
-
-    // Start is called before the first frame update
+    
     private void Start()
     {
+        _hpBar.maxValue = _maxHp;
+        _mpBar.maxValue = _maxMp;
+        CoinsAmount = 0;
+        CurrentHp = _maxHp;
+        CurrentMp = _maxMp;
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
@@ -112,16 +158,55 @@ public class PlayerMover : MonoBehaviour
 
     public void AddHp(int hpPoints)
     {
-        Debug.Log(message:"Hp raised " + hpPoints);
+        int missingHp = _maxHp - CurrentHp;
+        int pointToAddHp = missingHp > hpPoints ? hpPoints : missingHp;
+        StartCoroutine(RestoreHP(pointToAddHp));
     }
-    
+    private IEnumerator RestoreHP(int pointToAddHp)
+    {
+        
+        while ( pointToAddHp!=0)
+        {
+            pointToAddHp--;
+            CurrentHp++;
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
+    public void TakeDamage(int damage)
+    {
+        CurrentHp -= damage;
+        print(CurrentHp);
+        if (CurrentHp <= 0)
+        {
+            Debug.Log("died");
+            gameObject.SetActive(false);
+            Invoke(nameof(ReloadScene),1f);
+          
+        }
+    }
     public void AddMp(int mpPoints)
     {
-        Debug.Log(message:"Mp raised " + mpPoints);
+        int missingMp = _maxMp - CurrentMp;
+        int pointToAddMp = missingMp > mpPoints ? mpPoints : missingMp;
+        StartCoroutine(RestoreMP(pointToAddMp));
+    }
+    private IEnumerator RestoreMP(int pointToAddMp)
+    {
+        
+        while ( pointToAddMp!=0)
+        {
+            pointToAddMp--;
+            CurrentMp++;
+            yield return new WaitForSeconds(0.2f);
+        }
     }
     
     public void AddCoints(int CointsPoints)
     {
         Debug.Log(message:"Coints " + CointsPoints);
+    }
+    private void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
