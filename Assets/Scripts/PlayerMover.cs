@@ -34,6 +34,7 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] private string _runAnimatorKey;
     [SerializeField] private string _jumpAnimatorKey;
     [SerializeField] private string _crouchAnimatorKey;
+    [SerializeField] private string _hurtAnimationKey;
 
     [Header("UI")] 
     [SerializeField] private TMP_Text _coinAmountText;
@@ -46,6 +47,9 @@ public class PlayerMover : MonoBehaviour
     private int _coinsAmount;
     private int _currentHp;
     private int _currentMp;
+
+    private float _lastPushTime;
+    public bool CanClimb { get;  set; }
     public int CoinsAmount
     {
         get => _coinsAmount;
@@ -77,8 +81,7 @@ public class PlayerMover : MonoBehaviour
             _mpBar.value = value;
         }
     }
-    public bool CanClimb { get;  set; }
-    
+
     private void Start()
     {
         _hpBar.maxValue = _maxHp;
@@ -123,6 +126,15 @@ public class PlayerMover : MonoBehaviour
 
     private void FixedUpdate()
     {
+        bool canJump = Physics2D.OverlapCircle(_groundChecker.position , _groundCheckerRadius,_whatIsGround);
+        if (_animator.GetBool(_hurtAnimationKey))
+        {
+            if (Time.time - _lastPushTime > 0.2f && canJump)
+            {
+                _animator.SetBool(_hurtAnimationKey, false);
+            }
+            return;
+        }
         _rigidbody.velocity = new Vector2( _horizontalDirection * _speed , _rigidbody.velocity.y);
 
         if (CanClimb)
@@ -135,7 +147,7 @@ public class PlayerMover : MonoBehaviour
             _rigidbody.gravityScale = 3;
         }
 
-        bool canJump = Physics2D.OverlapCircle(_groundChecker.position , _groundCheckerRadius,_whatIsGround);
+        
         bool canStand = !Physics2D.OverlapCircle(_headChecker.position , _headCheckerRadius,_whatIsCell);
         
         _headCollider.enabled = !_crawl && canStand;
@@ -172,16 +184,26 @@ public class PlayerMover : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
         }
     }
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, float pushPower = 0, float enemyPosX = 0)
     {
+        if (_animator.GetBool(_hurtAnimationKey))
+        {
+            return;
+        }
+        
         CurrentHp -= damage;
-        print(CurrentHp);
         if (CurrentHp <= 0)
         {
-            Debug.Log("died");
             gameObject.SetActive(false);
             Invoke(nameof(ReloadScene),1f);
-          
+        }
+
+        if (pushPower != 0)
+        {
+            _lastPushTime = Time.time;
+            int direction = transform.position.x > enemyPosX ? 1 : -1;
+            _rigidbody.AddForce(new Vector2(direction * pushPower/2, pushPower));
+            _animator.SetBool(_hurtAnimationKey, true);
         }
     }
     public void AddMp(int mpPoints)

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2097570637804108604}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FireballPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 2097570638150063990}
   - component: {fileID: 2097570638150063988}
   - component: {fileID: 2097570638150063991}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ Transform:
   m_GameObject: {fileID: 2097570638150063984}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.5403547, y: -0.16598988, z: 0}
-  m_LocalScale: {x: 0.89858186, y: 1.0322324, z: 1}
+  m_LocalScale: {x: 0.93740064, y: 1.0768249, z: 1.0432}
   m_Children:
   - {fileID: 2097570638591076617}
   - {fileID: 2097570638776032965}
@@ -176,6 +176,7 @@ MonoBehaviour:
   _runAnimatorKey: Speed
   _jumpAnimatorKey: Jump
   _crouchAnimatorKey: Crouch
+  _hurtAnimationKey: Hurt
   _coinAmountText: {fileID: 6247586457110222768}
   _hpBar: {fileID: 5293005492268136063}
   _mpBar: {fileID: 5293005492268136063}
@@ -239,7 +240,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2097570638591076617}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GroundChecker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,7 +270,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2097570638776032965}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HeadChecker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -297,9 +298,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2097570638150063987}
     m_Modifications:
+    - target: {fileID: 3199490125237552693, guid: 5c753691f86fd2445a2cb4ab9e2a79cc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3199490125766975840, guid: 5c753691f86fd2445a2cb4ab9e2a79cc, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 3199490125766975840, guid: 5c753691f86fd2445a2cb4ab9e2a79cc, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3199490125766975844, guid: 5c753691f86fd2445a2cb4ab9e2a79cc, type: 3}
       propertyPath: m_Pivot.x
@@ -385,6 +394,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3720454786201053174, guid: 5c753691f86fd2445a2cb4ab9e2a79cc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3720454786384373696, guid: 5c753691f86fd2445a2cb4ab9e2a79cc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3720454786384373711, guid: 5c753691f86fd2445a2cb4ab9e2a79cc, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -392,6 +409,14 @@ PrefabInstance:
     - target: {fileID: 3720454786384373711, guid: 5c753691f86fd2445a2cb4ab9e2a79cc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3720454786647229121, guid: 5c753691f86fd2445a2cb4ab9e2a79cc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3720454787218438208, guid: 5c753691f86fd2445a2cb4ab9e2a79cc, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c753691f86fd2445a2cb4ab9e2a79cc, type: 3}
@@ -429,6 +454,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6247586458694775023}
     m_Modifications:
+    - target: {fileID: 317661005101011425, guid: 83648c8f3d309b74aac175e74b92639e, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3136895219680445444, guid: 83648c8f3d309b74aac175e74b92639e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -517,6 +546,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slider
       objectReference: {fileID: 0}
+    - target: {fileID: 3825029917975302475, guid: 83648c8f3d309b74aac175e74b92639e, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4273709820081146710, guid: 83648c8f3d309b74aac175e74b92639e, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -524,6 +557,14 @@ PrefabInstance:
     - target: {fileID: 4273709820081146710, guid: 83648c8f3d309b74aac175e74b92639e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7476749105207212671, guid: 83648c8f3d309b74aac175e74b92639e, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8775575681243374211, guid: 83648c8f3d309b74aac175e74b92639e, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83648c8f3d309b74aac175e74b92639e, type: 3}
